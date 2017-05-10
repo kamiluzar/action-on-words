@@ -1,0 +1,6 @@
+dobry - zly
+ciekawy - nudny
+silny - slaby
+madry - glupi
+szybki - wolny
+daleko - blisko

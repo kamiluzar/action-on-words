@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/XSL/Transform">
+<head lang="en">
+    <title>ActionOnWords</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <h2>Anthonym Dictionary!</h2>
+
+    <form action="/check-antonym" method="POST">
+        <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
+        <input type="submit" value="Check antonym" />
+    </form>
+    <br/><br/><br/>
+
+    <span th:if="${result}">
+     <p th:text="'Antonyms for ' + ${word} + ':'" />
+     <p th:text="${result}" />
+    </span>
+
+</body>
+</html>
