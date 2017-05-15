@@ -5,18 +5,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-    <h2>Anthonym Dictionary!</h2>
+    <h3>Check the antonym:</h3>
 
     <form action="/check-antonym" method="POST">
         <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
-        <input type="submit" value="Check antonym" />
+        <input type="submit" value="Check" />
     </form>
     <br/><br/><br/>
+
+    <h3>Check the formality of the word:</h3>
+
+    <form action="/formal-list" method="POST">
+        <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
+        <input type="submit" value="Check" />
+    </form>
+
 
     <span th:if="${result}">
      <p th:text="'Antonyms for ' + ${word} + ':'" />
      <p th:text="${result}" />
     </span>
+
+    <span th:if="${result2}">
+     <p th:text="${result2}" />
+    </span>
+
+
 
 </body>
 </html>
