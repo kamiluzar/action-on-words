@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 @Service
 public class DictionarySerivce {
 
+
     static final String PATH = "http://words.bighugelabs.com/api/2/9a0d1e46117e2bdb3bf6e1a1568faa3e/";
     static final String XML = "/xml";
 
@@ -32,6 +34,7 @@ public class DictionarySerivce {
             NodeList xml = doc.getElementsByTagName("w");
             String xmlElementValue = null;
             ArrayList<String> antonymsCollection = new ArrayList<>();
+
 
             for (int i = 0; i < xml.getLength(); i++) {
                 Element element = (Element) xml.item(i);
