@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -31,10 +32,10 @@ public class WordsController {
     }
 
     @RequestMapping(value = "/check-antonym", method = RequestMethod.POST)
-    public String checkAntonym (@RequestParam(value = "message") String word, Model model) {
-    String result = dictionarySerivce.findAntonyms(word);
-    model.addAttribute("result", result);
-    model.addAttribute("word", word);
+    public String checkAntonym (@RequestParam(value = "message") String word, Model model) throws IOException {
+        String result = dictionarySerivce.findAntonyms(word);
+        model.addAttribute("result", result);
+        model.addAttribute("word", word);
         return "home";
     }
 

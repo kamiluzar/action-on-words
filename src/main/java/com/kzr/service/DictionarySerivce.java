@@ -7,9 +7,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -24,38 +22,53 @@ public class DictionarySerivce {
 
     static final String PATH = "http://words.bighugelabs.com/api/2/9a0d1e46117e2bdb3bf6e1a1568faa3e/";
     static final String XML = "/xml";
+    static final String INCORRECT_WORD = "Incorrect word or lack of antonym in the database!";
 
-    public  String findAntonyms(String word) {
+    public  String findAntonyms(String word) throws IOException {
+        word = word.toLowerCase();
         try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            URL url = new URL(PATH + word + XML);
-            URLConnection connection = url.openConnection();
-            Document doc = parseXML(connection.getInputStream());
-            NodeList xml = doc.getElementsByTagName("w");
-            String xmlElementValue = null;
-            ArrayList<String> antonymsCollection = new ArrayList<>();
+            return checkFile(word);
+        }
+        catch (NullPointerException en) {
+            try {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                URL url = new URL(PATH + word + XML);
+                URLConnection connection = url.openConnection();
+                Document doc = parseXML(connection.getInputStream());
+                NodeList xml = doc.getElementsByTagName("w");
+                String xmlElementValue = null;
+                ArrayList<String> antonymsCollection = new ArrayList<>();
 
-
-            for (int i = 0; i < xml.getLength(); i++) {
-                Element element = (Element) xml.item(i);
-                if (isAntonym(element.getAttribute("r"))) {
-                    xmlElementValue = element.getTextContent();
-                    antonymsCollection.add(xmlElementValue);
+                for (int i = 0; i < xml.getLength(); i++) {
+                    Element element = (Element) xml.item(i);
+                    if (isAntonym(element.getAttribute("r"))) {
+                        xmlElementValue = element.getTextContent();
+                        antonymsCollection.add(xmlElementValue);
+                    }
                 }
+
+                String lastElement = antonymsCollection.get(antonymsCollection.size()-1);
+                String antonymsCollectionString = "";
+
+                for(String s : antonymsCollection) {
+                    if(!s.equals(lastElement))
+                        antonymsCollectionString += s + ", ";
+                    else
+                        antonymsCollectionString += s + ".";
+                }
+
+                saveToFile(word, antonymsCollectionString);
+
+                return "Antonym/s for " + word + ": " + antonymsCollectionString;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return INCORRECT_WORD;
+            } catch(IOException e){
+                return INCORRECT_WORD;
+            } catch (Exception e) {
+                StringWriter errors = new StringWriter();
+                e.printStackTrace(new PrintWriter(errors));
+                return errors.toString();
             }
-
-            String antonymsCollectionString = "";
-
-            for(String s : antonymsCollection) {
-                antonymsCollectionString += s + ", ";
-            }
-
-            return antonymsCollectionString;
-
-        } catch (Exception e) {
-            StringWriter errors = new StringWriter();
-            e.printStackTrace(new PrintWriter(errors));
-            return errors.toString();
         }
     }
 
@@ -75,5 +88,28 @@ public class DictionarySerivce {
             throw ex;
         }
         return doc;
+    }
+
+    public String checkFile(String word) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("antonyms.txt"));
+        boolean searchNext = true;
+        String antonym;
+        String line;
+        do {
+            line = reader.readLine();
+            if(line!=null)
+                if(line.split(" - ")[0].equals(word))
+                    searchNext = false;
+        }
+        while (line!=null && searchNext);
+        antonym = line.split(" - ")[1];
+        reader.close();
+        return "Antonym/s for " + word + ": " + antonym;
+    }
+
+    public void saveToFile(String word, String antonyms) throws IOException {
+        PrintWriter save = new PrintWriter(new FileWriter("antonyms.txt", true));
+        save.println(word + " - " + antonyms);
+        save.close();
     }
 }
