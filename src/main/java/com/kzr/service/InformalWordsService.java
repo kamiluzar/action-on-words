@@ -54,7 +54,7 @@ public class InformalWordsService {
             }
 
             String[] matches = new String[] {
-                    "informal", "vulgar", "offensive", "slang", "old-fashioned"};
+                    "informal", "vulgar", "offensive", "slang", "old-fashioned", "not standard"};
 
             String temp = "";
 
