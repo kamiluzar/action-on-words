@@ -3,34 +3,63 @@
 <head lang="en">
     <title>ActionOnWords</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    </link>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
+    </link>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"> </link>
+    <!--<link rel="stylesheet" th:href="@{/css/style.css}" />-->
 </head>
 <body>
-    <h3>Check the antonym:</h3>
+<div id="container_all">
+    <div id="menu">
+        <a href="/">HOME</a>
+    </div>
+    <div id="container">
+        <div class = "window">
+            <h3>Check the antonym:</h3>
+            <form action="/check-antonym" method="POST">
+                <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
+                <input type="submit" value="Check" />
+            </form>
+        </div>
 
-    <form action="/check-antonym" method="POST">
-        <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
-        <input type="submit" value="Check" />
-    </form>
-    <br/><br/><br/>
-
-    <h3>Check the formality of the word:</h3>
-
-    <form action="/formal-list" method="POST">
-        <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
-        <input type="submit" value="Check" />
-    </form>
-
-
-    <span th:if="${result}">
-     <p th:text="'Antonyms for ' + ${word} + ':'" />
-     <p th:text="${result}" />
-    </span>
-
-    <span th:if="${result2}">
-     <p th:text="${result2}" />
-    </span>
-
-
-
+        <div class="window">
+            <h3>Check the formality of the word:</h3>
+            <form action="/formal-list" method="POST">
+                <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
+                <input type="submit" value="Check" />
+            </form>
+        </div>
+        <br/><br/>
+        <div id="result_container">
+            <h2>Result:</h2>
+            <div id="result_on">
+                <div id="result" th:if="${result}">
+                    <p th:text="${result}" />
+                </div>
+            </div>
+        </div>
+        <!--<span th:if="${result2}">-->
+        <!--<p th:text="${result2}" />-->
+        <!--</span>-->
+    </div>
+    <div id="footer">
+        &copy; Kamil
+    </div>
+</div>
 </body>
 </html>
