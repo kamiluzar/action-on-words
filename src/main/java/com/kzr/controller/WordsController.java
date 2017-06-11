@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 /**
  * Created by Kamil on 2017-04-26.
@@ -40,9 +39,9 @@ public class WordsController {
     }
 
     @RequestMapping(value = "/formal-list", method = RequestMethod.POST)
-    public String checkFormal (@RequestParam(value = "message") String text, Model model) throws MalformedURLException {
+    public String checkFormal (@RequestParam(value = "message") String text, Model model) throws IOException {
         String result = informalWordsService.isFormal(text);
-        model.addAttribute("result2", result);
+        model.addAttribute("result", result);
         return "home";
     }
 }

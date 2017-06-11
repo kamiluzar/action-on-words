@@ -1,2 +1,5 @@
 happy - unhappy.
 bad - good, unregretful, good, goodness.
+unhappy - euphoric, happy.
+fast - slow.
+fat - nonfat, thin, leanness.
