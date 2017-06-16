@@ -14,6 +14,9 @@ import java.io.IOException;
  * Created by Kamil on 2017-04-26.
  */
 
+/**
+ *  Class responsible for processing user requests and building an appropriate model and passes it to the view for rendering.
+ */
 @Controller
 public class WordsController {
 
@@ -26,7 +29,7 @@ public class WordsController {
     }
 
     /**
-     * This method returns the home page
+     * This method returns the html file with home page
      */
     @RequestMapping("/")
     public String home() {
@@ -34,8 +37,9 @@ public class WordsController {
     }
 
     /**
-     * This method returns a web page with the requested antonyms
+     * This method returns the html file with the requested antonyms
      * @param word Search word
+     * @param model Passing data to view
      */
     @RequestMapping(value = "/check-antonym", method = RequestMethod.POST)
     public String checkAntonym (@RequestParam(value = "message") String word, Model model) throws IOException {
@@ -46,8 +50,9 @@ public class WordsController {
     }
 
     /**
-     * This method returns a web page with information about the formality of the word
+     * This method returns the html file with information about the formality of the word
      * @param text Search word
+     * @param model Passing data to view
      */
     @RequestMapping(value = "/formal-list", method = RequestMethod.POST)
     public String checkFormal (@RequestParam(value = "message") String text, Model model) throws IOException {

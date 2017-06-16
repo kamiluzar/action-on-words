@@ -9,6 +9,9 @@ import java.util.ArrayList;
  * Created by Kamil on 2017-06-15.
  */
 
+/**
+ * Class with database related to antonyms
+ */
 public class DictionaryDao {
 
     static final String JDBC_DRIVER = "org.h2.Driver";
@@ -18,6 +21,11 @@ public class DictionaryDao {
     Connection conn = null;
     Statement stmt = null;
 
+    /**
+     * This method adds antonyms to the database
+     * @param word Search word
+     * @param antonym Antonym of the inscribed word
+     */
     public void addToDB(String word, String antonym) {
         int antonym_id = 0;
         try {
@@ -51,6 +59,11 @@ public class DictionaryDao {
         }
     }
 
+    /**
+     * This method reads data from the database
+     * @param searchWord Written the word for which user is looking for antonym
+     * @return List of antonym from database
+     */
     public String readDB(String searchWord) {
         String word = null;
         String antonym = null;

@@ -9,6 +9,9 @@ import java.util.ArrayList;
  * Created by Kamil on 2017-06-15.
  */
 
+/**
+ * Class with database related to formal words
+ */
 public class InformalWordsDao {
 
     static final String JDBC_DRIVER = "org.h2.Driver";
@@ -18,6 +21,11 @@ public class InformalWordsDao {
     Connection conn = null;
     Statement stmt = null;
 
+    /**
+     * This method adds words with their description to the database
+     * @param word Search word
+     * @param response Determination of whether a given word is formal
+     */
     public void addToDB(String word, String response) {
         int formal_id = 0;
         try {
@@ -51,6 +59,11 @@ public class InformalWordsDao {
         }
     }
 
+    /**
+     * This method reads data from the database
+     * @param searchWord Written the word for which user is looking for information on its formalities
+     * @return Whether the word is formal
+     */
     public String readDB(String searchWord) {
         String word;
         String response = null;
