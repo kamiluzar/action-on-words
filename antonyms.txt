@@ -1,5 +1,31 @@
 happy - unhappy.
 bad - good, unregretful, good, goodness.
 unhappy - euphoric, happy.
+comfortable - uncomfortable.
 fast - slow.
-fat - nonfat, thin, leanness.
+fast - slow.
+good - bad, evil, ill, bad, badness, evil, evilness.
+slow - fast, quickly, accelerate.
+quickly - slowly.
+slowly - quickly.
+home - away.
+away - home.
+goodness - bad, badness, evil, evilness.
+evil - good, good, goodness.
+dirty - clean.clean.
+impossible - possible.
+left - center, right.right.right.
+play - tightness.
+tightness - distribution, looseness.
+fast - slow.
+bad - good, unregretful, good, goodness.
+good - bad, evil, ill, bad, badness, evil, evilness.
+bad - good, unregretful, good, goodness.
+fast - slow.
+love - hate.hate.
+hate - love.love.
+bad - good, unregretful, good, goodness.
+fast - slow.
+fast - slow.
+bad - good, unregretful, good, goodness.
+home - away.
