@@ -25,11 +25,18 @@ public class WordsController {
         this.informalWordsService = informalWordsService;
     }
 
+    /**
+     * This method returns the home page
+     */
     @RequestMapping("/")
     public String home() {
         return "home";
     }
 
+    /**
+     * This method returns a web page with the requested antonyms
+     * @param word Search word
+     */
     @RequestMapping(value = "/check-antonym", method = RequestMethod.POST)
     public String checkAntonym (@RequestParam(value = "message") String word, Model model) throws IOException {
         String result = dictionarySerivce.findAntonyms(word);
@@ -38,6 +45,10 @@ public class WordsController {
         return "home";
     }
 
+    /**
+     * This method returns a web page with information about the formality of the word
+     * @param text Search word
+     */
     @RequestMapping(value = "/formal-list", method = RequestMethod.POST)
     public String checkFormal (@RequestParam(value = "message") String text, Model model) throws IOException {
         String result = informalWordsService.isFormal(text);

@@ -1,5 +1,7 @@
 package com.kzr.service;
 
+import com.kzr.dao.DictionaryDao;
+import org.h2.jdbc.JdbcSQLException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -10,27 +12,37 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
  * Created by Kamil on 2017-04-26.
  */
 
+/**
+ * Class designed to search for antonyms
+ */
 @Service
 public class DictionarySerivce {
-
-
     static final String PATH = "http://words.bighugelabs.com/api/2/9a0d1e46117e2bdb3bf6e1a1568faa3e/";
     static final String XML = "/xml";
     static final String INCORRECT_WORD = "Incorrect word or lack of antonym in the database!";
+    static final String DATABASE_ERROR = "Database error";
+    static final String INTERNECT_CONNECTION = "No internet connection!";
 
+    DictionaryDao dictionaryDao = new DictionaryDao();
+
+    /**
+     * This method connects to a web page and uses the DOM to search for antonyms
+     * @param word Search word
+     * @return List of antonyms
+     */
     public  String findAntonyms(String word) throws IOException {
-        word = word.toLowerCase();
-        try {
-            return checkFile(word);
-        }
-        catch (NullPointerException en) {
             try {
+                word = word.toLowerCase();
+                String check = dictionaryDao.readDB(word);
+                if(!check.contains("null"))
+                    return dictionaryDao.readDB(word); //checkFile(word);
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 URL url = new URL(PATH + word + XML);
                 URLConnection connection = url.openConnection();
@@ -56,26 +68,40 @@ public class DictionarySerivce {
                     else
                         antonymsCollectionString += s + ".";
                 }
-
-                saveToFile(word, antonymsCollectionString);
-
+                 dictionaryDao.addToDB(word, antonymsCollectionString); //saveToFile(word, antonymsCollectionString);
                 return "Antonym/s for " + word + ": " + antonymsCollectionString;
+            } catch (UnknownHostException e) {
+                return INTERNECT_CONNECTION;
+            } catch (NullPointerException e) {
+                return INCORRECT_WORD;
             } catch (ArrayIndexOutOfBoundsException e) {
                 return INCORRECT_WORD;
             } catch(IOException e){
                 return INCORRECT_WORD;
-            } catch (Exception e) {
+            } catch (JdbcSQLException e) {
+                return DATABASE_ERROR;
+            }  catch (Exception e) {
                 StringWriter errors = new StringWriter();
                 e.printStackTrace(new PrintWriter(errors));
                 return errors.toString();
             }
-        }
     }
 
+    /**
+     * Whether the attribute contain antonym
+     * @param text Fragment of the xml attribute
+     * @return Whether the attribute contain antonym
+     */
     private static boolean isAntonym(String text) {
         return text != null && text.equals("ant");
     }
 
+    /**
+     * Parsing the XML file
+     * @param stream Input stream
+     * @return XML in Document format
+     * @throws Exception
+     */
     private static Document parseXML(InputStream stream) throws Exception {
         DocumentBuilderFactory objDocumentBuilderFactory = null;
         DocumentBuilder objDocumentBuilder = null;
@@ -90,10 +116,15 @@ public class DictionarySerivce {
         return doc;
     }
 
+    /**
+     * The method checks if it has an antonym
+     * @param word Search word
+     * @return List of antonyms from the file
+     */
     public String checkFile(String word) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader("antonyms.txt"));
         boolean searchNext = true;
-        String antonym;
+          String antonym;
         String line;
         do {
             line = reader.readLine();
@@ -107,6 +138,11 @@ public class DictionarySerivce {
         return "Antonym/s for " + word + ": " + antonym;
     }
 
+    /**
+     * Method writes to the file found antonyms
+     * @param word Search word
+     * @param antonyms List of antonyms
+     */
     public void saveToFile(String word, String antonyms) throws IOException {
         PrintWriter save = new PrintWriter(new FileWriter("antonyms.txt", true));
         save.println(word + " - " + antonyms);
