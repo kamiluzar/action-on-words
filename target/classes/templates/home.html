@@ -31,16 +31,18 @@
     <div id="container">
         <div class = "window">
             <h3>Check the antonym:</h3>
-            <form action="/check-antonym" method="POST">
-                <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
+            <form action="/check-antonym" onsubmit="myFunction()" method="POST" >
+                <input type="text" name="message"/><br/><br/>
+                <!--<textarea rows="1" cols="10" name="message"></textarea><br/><br/>-->
                 <input type="submit" value="Check" />
             </form>
         </div>
 
         <div class="window">
             <h3>Check the formality of the word:</h3>
-            <form action="/formal-list" method="POST">
-                <textarea rows="1" cols="10" name="message"></textarea><br/><br/>
+            <form action="/formal-list" method="POST" submit="myFunction()">
+                <input type="text" name="message"/><br/><br/>
+                <!--<textarea rows="1" cols="10" name="message"></textarea><br/><br/>-->
                 <input type="submit" value="Check" />
             </form>
         </div>
